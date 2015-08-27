@@ -20,7 +20,7 @@ Have your pattern defined and want to perform a subquery. Let's do it!
 
 ```python
 import pather
-pather.ls('project/assets/{item}/{task}/published/{family}', data={'mike': 'ben'})
+pather.ls('project/assets/{item}/{task}/published/{family}', data={'item': 'mike'})
 # ['project/assets/mike/rigging/published/rig',
 #  'project/assets/mike/modeling/published/model']
 ```
