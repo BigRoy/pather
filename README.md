@@ -78,8 +78,8 @@ data.pop('version')
 
 all_versions = pather.ls(pattern, data=data)
 # ['thedeal/assets/ben/modeling/published/model/ben_default/v01/',
-#  'thedeal/assets/ben/modeling/published/model/ben_default/v01/',
-#  'thedeal/assets/ben/modeling/published/model/ben_default/v01/']
+#  'thedeal/assets/ben/modeling/published/model/ben_default/v02/',
+#  'thedeal/assets/ben/modeling/published/model/ben_default/v03/']
 ```
 
 Or find all published content among all tasks with the same version number?
@@ -91,12 +91,11 @@ data = pather.parse(pattern, current_file)
 # Remove the keys that we don't want to filter on.
 data.pop('task')
 data.pop('family')
-data.pop('task')
 
-all_versions = pather.ls(pattern, data=data)
+files = pather.ls(pattern, data=data)
 # ['thedeal/assets/ben/modeling/published/model/ben_default/v01/',
-#  'thedeal/assets/ben/modeling/published/model/ben_default/v01/',
-#  'thedeal/assets/ben/modeling/published/model/ben_default/v01/']
+#  'thedeal/assets/ben/rigging/published/rig/ben_default/v01/',
+#  'thedeal/assets/ben/lookdev/published/shaders/ben_default/v01/']
 ```
 
 ---
