@@ -28,7 +28,9 @@ pather.ls('project/assets/{item}/{task}/published/{family}', data={'mike': 'ben'
 ### Format your paths
 
 Have some information about your file, but don't know where it should go?
+
 Well, it's good you planned ahead when you started the project with a pipeline.
+
 Let's pick up the pattern you laid out for the team.
 
 ```python
@@ -45,7 +47,9 @@ pather.format(pattern, data)
 
 ### Parse the data from a path
 
-So you've found yourself in a location in the project and want to grab the information about where you are. Parse it.
+So you've found yourself in a location in the project and want to grab the information about where you are. 
+
+Parse it.
 
 ```python
 import pather
@@ -62,6 +66,7 @@ data = pather.parse(pattern, parse)
 ### Get your freak on
 
 Want to spice it up? 
+
 So you want to find all other versions of the model that you're currently using.
 
 ```python
@@ -94,4 +99,6 @@ all_versions = pather.ls(pattern, data=data)
 #  'thedeal/assets/ben/modeling/published/model/ben_default/v01/']
 ```
 
-Managing files is ~~that~~ dead easy.
+---
+
+Managing files is ~~that~~ *dead easy*.
