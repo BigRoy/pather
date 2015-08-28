@@ -101,8 +101,8 @@ def ls_iter(pattern, data=None, with_matches=False):
             yield path
 
 
-def ls(pattern, data=None, *args, **kwargs):
-    return list(ls_iter(pattern, data, *args, **kwargs))
+def ls(pattern, data=None, with_matches=False):
+    return list(ls_iter(pattern, data, with_matches=False))
 
 
 def _partial_format(s, data):
