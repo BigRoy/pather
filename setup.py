@@ -13,7 +13,7 @@ setup(
     description="Manage file system structure using patterns",
     author="Roy Nieterau",
     author_email="roy_nieterau@hotmail.com",
-    url="https://github.com/pather/pather",
+    url="https://github.com/bigroy/pather",
     license="LGPL",
     packages=find_packages(),
     zip_safe=False,
