@@ -125,3 +125,102 @@ class TestLs(object):
         with assert_raises(TypeError):
             pather.ls(self.pattern, data={'item': object()})
 
+
+class TestLsDotted(object):
+
+    @classmethod
+    def setup_class(cls):
+
+        cls.directory = tempfile.mkdtemp()
+        cls.pattern = 'test/{a}.dotted.{b}/{c}.{d}.{e}/{f}.{ext}'
+
+        # Set current root directory
+        os.chdir(cls.directory)
+
+        paths = ['test/folder.dotted.here/so.many.dots/testing.extension']
+
+        for path in paths:
+            full_tree = os.path.join(cls.directory, path)
+            if not os.path.exists(full_tree):
+                os.makedirs(full_tree)
+
+    @classmethod
+    def teardown_class(cls):
+        pass
+        # try:
+        #     shutil.rmtree(cls.directory)
+        # except OSError as exc:
+        #     # ENOENT - no such file or directory
+        #     if exc.errno != errno.ENOENT:
+        #         raise  # re-raise exception
+
+    def _in_tmpdir(self, paths):
+        paths = [os.path.join(self.directory, path) for path in paths]
+        paths = [os.path.realpath(path) for path in paths]
+        return paths
+
+    def test_ls_dotted(self):
+        """Ls dotted"""
+
+        expected_matches = [
+            'test/folder.dotted.here/so.many.dots/testing.extension'
+        ]
+        expected_matches = self._in_tmpdir(expected_matches)
+
+        matches = pather.ls(self.pattern)
+        assert set(expected_matches) == set(matches)
+
+    def test_ls_dotted_data_full(self):
+        """Ls dotted with data full"""
+
+        expected_matches = [
+            'test/folder.dotted.here/so.many.dots/testing.extension'
+        ]
+        expected_matches = self._in_tmpdir(expected_matches)
+
+        data = {'a': 'folder',
+                'b': 'here',
+                'c': 'so',
+                'd': 'many',
+                'e': 'dots',
+                'f': 'testing',
+                'ext': 'extension'}
+
+        matches = pather.ls(self.pattern, data=data)
+
+        assert set(expected_matches) == set(matches)
+
+    def test_ls_dotted_data_partial(self):
+        """Ls dotted with data partial"""
+
+        expected_matches = [
+            'test/folder.dotted.here/so.many.dots/testing.extension'
+        ]
+        expected_matches = self._in_tmpdir(expected_matches)
+
+        data = {'a': 'folder',
+                'b': 'here',
+                'd': 'many',
+                'e': 'dots',
+                'f': 'testing'}
+
+        matches = pather.ls(self.pattern, data=data)
+
+        assert set(expected_matches) == set(matches)
+
+    def test_ls_dotted_with_matches(self):
+        """Ls dotted with matches"""
+
+        results = pather.ls(self.pattern, with_matches=True)
+        print results
+        return
+
+        expected_data = {'a': 'folder',
+                         'b': 'here',
+                         'c': 'so',
+                         'd': 'many',
+                         'e': 'dots',
+                         'f': 'testing',
+                         'ext': 'extension'}
+
+        assert expected_data == match_data
