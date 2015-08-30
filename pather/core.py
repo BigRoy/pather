@@ -45,6 +45,11 @@ def parse(pattern, path):
     path = path.replace('\\', '/')
     pattern = pattern.replace('\\', '/')
 
+    # Escape characters in path that are regex patterns so they are
+    # excluded by the regex searches. Exclude '{' and '}' in escaping.
+    pattern = re.escape(pattern)
+    pattern = pattern.replace('\{', '{').replace('\}', '}')
+
     keys = re.findall(r'{(%s+)}' % RE_FILENAME,
                       pattern)
     if not keys:

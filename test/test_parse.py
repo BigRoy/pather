@@ -52,3 +52,66 @@ def test_format_and_parse():
 
     formatted_again = pather.format(pattern, parsed)
     assert formatted == formatted_again
+
+
+def test_parse_filename_full_path():
+    """Parse filename full path"""
+
+    pattern = 'project/{entity}/{task}/{family}/{instance}_{category}.{ext}'
+    path = 'project/john/rigging/review/bob_model.ma'
+    data = pather.parse(pattern, path)
+
+    assert data == {'entity': 'john',
+                    'task': 'rigging',
+                    'family': 'review',
+                    'instance': 'bob',
+                    'category': 'model',
+                    'ext': 'ma'}
+
+
+def test_parse_filename_full_path_static_end():
+    """Parse filename full path static end"""
+
+    pattern = 'project/{entity}/{task}/{family}/{instance}_static.{ext}'
+    path = 'project/john/rigging/review/bob_static.ma'
+    data = pather.parse(pattern, path)
+
+    assert data == {'entity': 'john',
+                    'task': 'rigging',
+                    'family': 'review',
+                    'instance': 'bob',
+                    'ext': 'ma'}
+
+
+def test_parse_filename_static_end():
+    """Parse filename static end"""
+
+    pattern = '{instance}_static.{ext}'
+    path = 'bob_static.ma'
+    data = pather.parse(pattern, path)
+
+    assert data == {'instance': 'bob',
+                    'ext': 'ma'}
+
+
+def test_parse_filename_static_image_sequence():
+    """Parse filename static image sequence"""
+
+    pattern = '{name}.0001.{ext}'
+    path = 'image_sequence.0001.exr'
+    data = pather.parse(pattern, path)
+
+    assert data == {'name': 'image_sequence',
+                    'ext': 'exr'}
+
+
+def test_parse_filename_dynamic_image_sequence():
+    """Parse filename dynamic image sequence"""
+
+    pattern = '{name}.{frame}.{ext}'
+    path = 'image_sequence.0001.exr'
+    data = pather.parse(pattern, path)
+
+    assert data == {'name': 'image_sequence',
+                    'frame': '0001',
+                    'ext': 'exr'}
