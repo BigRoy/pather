@@ -95,7 +95,7 @@ def ls_iter(pattern, data=None, with_matches=False):
     pattern = os.path.realpath(pattern)
 
     glob_pattern = re.sub(r'([/\\]{\w+}[/\\])', '/*/', pattern)     # folder
-    glob_pattern = re.sub(r'({\w+})', '/*/', glob_pattern)          # filename
+    glob_pattern = re.sub(r'({\w+})', '*', glob_pattern)          # filename
 
     for path in glob.iglob(glob_pattern):
         path = os.path.realpath(path)
@@ -107,7 +107,7 @@ def ls_iter(pattern, data=None, with_matches=False):
 
 
 def ls(pattern, data=None, with_matches=False):
-    return list(ls_iter(pattern, data, with_matches=False))
+    return list(ls_iter(pattern, data, with_matches=with_matches))
 
 
 def _partial_format(s, data):
