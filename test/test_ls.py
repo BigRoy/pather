@@ -212,8 +212,7 @@ class TestLsDotted(object):
         """Ls dotted with matches"""
 
         results = pather.ls(self.pattern, with_matches=True)
-        print results
-        return
+        path, match_data = results[0]
 
         expected_data = {'a': 'folder',
                          'b': 'here',
