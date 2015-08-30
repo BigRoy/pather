@@ -89,7 +89,8 @@ class TestLs(object):
         ]
         expected_matches = self._in_tmpdir(expected_matches)
 
-        matches = pather.ls(self.pattern, data={'item': 'claire'})
+        matches = pather.ls(self.pattern,
+                            include={'item': 'claire'})
         assert set(expected_matches) == set(matches)
 
         # match only item 'claire' and version 'v02'
@@ -98,32 +99,39 @@ class TestLs(object):
         ]
         expected_matches = self._in_tmpdir(expected_matches)
 
-        matches = pather.ls(self.pattern, data={'item': 'claire',
-                                                'version': 'v02'})
+        matches = pather.ls(self.pattern,
+                            include={'item': 'claire',
+                                     'version': 'v02'})
         assert set(expected_matches) == set(matches)
 
         # no match
-        matches = pather.ls(self.pattern, data={'item': 'd'})
+        matches = pather.ls(self.pattern,
+                            include={'item': 'd'})
         assert matches == []
 
         # no match (empty string)
-        matches = pather.ls(self.pattern, data={'item': ''})
+        matches = pather.ls(self.pattern,
+                            include={'item': ''})
         assert matches == []
 
     def test_ls_data_type_exception(self):
         """Ls invalid data values type exception raised"""
 
         with assert_raises(TypeError):
-            pather.ls(self.pattern, data={'item': None})
+            pather.ls(self.pattern,
+                      include={'item': None})
 
         with assert_raises(TypeError):
-            pather.ls(self.pattern, data={'item': True})
+            pather.ls(self.pattern,
+                      include={'item': True})
 
         with assert_raises(TypeError):
-            pather.ls(self.pattern, data={'item': 1})
+            pather.ls(self.pattern,
+                      include={'item': 1})
 
         with assert_raises(TypeError):
-            pather.ls(self.pattern, data={'item': object()})
+            pather.ls(self.pattern,
+                      include={'item': object()})
 
 
 class TestLsDotted(object):
@@ -178,15 +186,15 @@ class TestLsDotted(object):
         ]
         expected_matches = self._in_tmpdir(expected_matches)
 
-        data = {'a': 'folder',
-                'b': 'here',
-                'c': 'so',
-                'd': 'many',
-                'e': 'dots',
-                'f': 'testing',
-                'ext': 'extension'}
+        include = {'a': 'folder',
+                   'b': 'here',
+                   'c': 'so',
+                   'd': 'many',
+                   'e': 'dots',
+                   'f': 'testing',
+                   'ext': 'extension'}
 
-        matches = pather.ls(self.pattern, data=data)
+        matches = pather.ls(self.pattern, include=include)
 
         assert set(expected_matches) == set(matches)
 
@@ -198,13 +206,13 @@ class TestLsDotted(object):
         ]
         expected_matches = self._in_tmpdir(expected_matches)
 
-        data = {'a': 'folder',
-                'b': 'here',
-                'd': 'many',
-                'e': 'dots',
-                'f': 'testing'}
+        include = {'a': 'folder',
+                   'b': 'here',
+                   'd': 'many',
+                   'e': 'dots',
+                   'f': 'testing'}
 
-        matches = pather.ls(self.pattern, data=data)
+        matches = pather.ls(self.pattern, include=include)
 
         assert set(expected_matches) == set(matches)
 

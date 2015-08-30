@@ -69,7 +69,7 @@ def parse(pattern, path):
     return dict(zip(keys, values))
 
 
-def ls_iter(pattern, data=None, with_matches=False):
+def ls_iter(pattern, include=None, with_matches=False):
     """Yield all matches for the given pattern.
 
     If the pattern starts with a relative path (or a dynamic key) the search
@@ -77,9 +77,9 @@ def ls_iter(pattern, data=None, with_matches=False):
 
     Arguments:
         pattern (str): The pattern to match and search against.
-        data (dict): A dictionary of data to format the pattern by before
-            starting the query. With this you can reduce or point the query
-            to a specific subset of the rule.
+        include (dict): A dictionary used to target the search with the pattern
+            to include only those key-value pairs within the pattern. With this
+            you can reduce the filesystem query to a specified subset.
 
     Example:
     >>> import os
@@ -88,8 +88,8 @@ def ls_iter(pattern, data=None, with_matches=False):
     """
 
     # format rule by data already provided to reduce query
-    if data is not None:
-        pattern = format(pattern, data, allow_partial=True)
+    if include is not None:
+        pattern = format(pattern, include, allow_partial=True)
 
     pattern = os.path.expandvars(pattern)
     pattern = os.path.realpath(pattern)
@@ -106,8 +106,8 @@ def ls_iter(pattern, data=None, with_matches=False):
             yield path
 
 
-def ls(pattern, data=None, with_matches=False):
-    return list(ls_iter(pattern, data, with_matches=with_matches))
+def ls(pattern, include=None, with_matches=False):
+    return list(ls_iter(pattern, include, with_matches=with_matches))
 
 
 def _partial_format(s, data):
