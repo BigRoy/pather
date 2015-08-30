@@ -20,7 +20,7 @@ Have your pattern defined and want to perform a subquery. Let's do it!
 
 ```python
 import pather
-pather.ls('project/assets/{item}/{task}/published/{family}', data={'item': 'mike'})
+pather.ls('project/assets/{item}/{task}/published/{family}', include={'item': 'mike'})
 # ['project/assets/mike/rigging/published/rig',
 #  'project/assets/mike/modeling/published/model']
 ```
@@ -76,7 +76,7 @@ pattern = '{project}/assets/{item}/{task}/published/{family}/{instance}/{version
 data = pather.parse(pattern, current_file)
 data.pop('version')
 
-all_versions = pather.ls(pattern, data=data)
+all_versions = pather.ls(pattern, include=data)
 # ['thedeal/assets/ben/modeling/published/model/ben_default/v01/',
 #  'thedeal/assets/ben/modeling/published/model/ben_default/v02/',
 #  'thedeal/assets/ben/modeling/published/model/ben_default/v03/']
@@ -92,7 +92,7 @@ data = pather.parse(pattern, current_file)
 data.pop('task')
 data.pop('family')
 
-files = pather.ls(pattern, data=data)
+files = pather.ls(pattern, include=data)
 # ['thedeal/assets/ben/modeling/published/model/ben_default/v01/',
 #  'thedeal/assets/ben/rigging/published/rig/ben_default/v01/',
 #  'thedeal/assets/ben/lookdev/published/shaders/ben_default/v01/']
