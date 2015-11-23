@@ -35,3 +35,14 @@ def test_format_invalid_type_exception():
 
     with assert_raises(TypeError):
         pather.format(pattern, data)
+
+
+def test_format_unicode():
+    """Format pattern and data allows unicode"""
+
+    pattern = unicode('project/{entity}/{task}/{family}')
+    data = {unicode('entity'): unicode('john'),
+            unicode('family'): unicode('review')}
+
+    formatted = pather.format(pattern, data)
+    assert formatted == 'project/john/{task}/review'

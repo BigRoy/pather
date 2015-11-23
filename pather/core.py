@@ -18,7 +18,7 @@ def format(pattern, data, allow_partial=True):
 
     assert isinstance(data, dict)
 
-    if not all(isinstance(value, str) for value in data.values()):
+    if not all(isinstance(value, basestring) for value in data.values()):
         raise TypeError("The values in the data "
                         "dictionary must be strings")
 
@@ -32,16 +32,19 @@ def parse(pattern, path):
     """Parse data from a path based on a pattern
 
     Example:
-    >>> pattern = "root/{task}/{version}/data/"
-    >>> path = "root/modeling/v001/data/"
-    >>> path_parse(pattern, path)
-    >>> # {'task': 'modeling', 'version': 'v001'}
+        >>> pattern = "root/{task}/{version}/data/"
+        >>> path = "root/modeling/v001/data/"
+        >>> path_parse(pattern, path)
+        >>> # {'task': 'modeling', 'version': 'v001'}
+
+    Returns:
+        dict: The data retrieved from path using pattern.
     """
 
     pattern = os.path.normpath(pattern)
     path = os.path.normpath(path)
 
-    # force forward slashes
+    # Force forward slashes
     path = path.replace('\\', '/')
     pattern = pattern.replace('\\', '/')
 
@@ -55,7 +58,7 @@ def parse(pattern, path):
     if not keys:
         return []
 
-    # find the corresponding values
+    # Find the corresponding values
     value_pattern = re.sub(r'{(%s+)}' % RE_FILENAME,
                            r'(%s+)' % RE_FILENAME,
                            pattern)
@@ -82,9 +85,16 @@ def ls_iter(pattern, include=None, with_matches=False):
             you can reduce the filesystem query to a specified subset.
 
     Example:
-    >>> import os
-    >>> data = {"root": os.path.expanduser("~"), "content": "cache"}
-    >>> path_ls("{root}/{project}/data/{content}/")
+        >>> import os
+        >>> data = {"root": os.path.expanduser("~"), "content": "cache"}
+        >>> path_ls("{root}/{project}/data/{content}/", include=data)
+
+    Returns:
+        (str, tuple): The matched paths (and data if `with_matches` is True)
+
+        The returned value changes whether `with_matches` parameter is True or
+        False. If True a 2-tuple is yielded for each match as (path, data) else
+        only the path is returned
     """
 
     # format rule by data already provided to reduce query
@@ -118,8 +128,8 @@ def _partial_format(s, data):
         data (dict): The dictionary used to format with.
 
     Example:
-    >>> partial_format("{d} {a} {b} {c} {d}", {'b': "and", 'c': "left"})
-    >>> # "left {a} and {c} left"
+        >>> partial_format("{d} {a} {b} {c} {d}", {'b': "and", 'c': "left"})
+        >>> # "left {a} and {c} left"
     """
 
     class FormatDict(dict):
