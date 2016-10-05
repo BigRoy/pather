@@ -32,6 +32,14 @@ def format(pattern, data, allow_partial=True):
         Traceback (most recent call last):
             ...
         KeyError: 'character'
+
+    Args:
+        pattern (str): The pattern to format.
+        data (dict): The key, value pairs used for formatting.
+        allow_partial (bool): Whether to raise error on partial format.
+
+    Returns:
+        str: The formatted result
     """
 
     assert isinstance(data, dict)
