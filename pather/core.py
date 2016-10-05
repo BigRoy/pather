@@ -14,7 +14,25 @@ RE_FILENAME = '[-\w.,; \[\]]'
 
 
 def format(pattern, data, allow_partial=True):
-    """Format a pattern with a set of data"""
+    """Format a pattern with a set of data
+
+    Examples:
+
+        Full formatting
+        >>> format("{a}/{b}/{c}", {"a": "foo", "b": "bar", "c": "nugget"})
+        'foo/bar/nugget'
+
+        Partial formatting
+        >>> format("{asset}/{character}", {"asset": "hero"})
+        'hero/{character}'
+
+        Disallow partial formatting
+        >>> format("{asset}/{character}", {"asset": "hero"},
+        ...        allow_partial=False)
+        Traceback (most recent call last):
+            ...
+        KeyError: 'character'
+    """
 
     assert isinstance(data, dict)
 
@@ -34,8 +52,8 @@ def parse(pattern, path):
     Example:
         >>> pattern = "root/{task}/{version}/data/"
         >>> path = "root/modeling/v001/data/"
-        >>> path_parse(pattern, path)
-        >>> # {'task': 'modeling', 'version': 'v001'}
+        >>> parse(pattern, path)
+        {'task': 'modeling', 'version': 'v001'}
 
     Returns:
         dict: The data retrieved from path using pattern.
@@ -85,9 +103,10 @@ def ls_iter(pattern, include=None, with_matches=False):
             you can reduce the filesystem query to a specified subset.
 
     Example:
-        >>> import os
-        >>> data = {"root": os.path.expanduser("~"), "content": "cache"}
-        >>> path_ls("{root}/{project}/data/{content}/", include=data)
+        >>> data = {"root": "foobar", "content": "nugget"}
+        >>> for path in ls_iter("{root}/{project}/data/{content}/",
+        ...                     include=data):
+        ...     print path
 
     Returns:
         (str, tuple): The matched paths (and data if `with_matches` is True)
@@ -128,8 +147,8 @@ def _partial_format(s, data):
         data (dict): The dictionary used to format with.
 
     Example:
-        >>> partial_format("{d} {a} {b} {c} {d}", {'b': "and", 'c': "left"})
-        >>> # "left {a} and {c} left"
+        >>> _partial_format("{d} {a} {b} {c} {d}", {'b': "and", 'd': "left"})
+        'left {a} and {c} left'
     """
 
     class FormatDict(dict):

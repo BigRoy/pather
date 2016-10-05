@@ -11,6 +11,6 @@ sys.path.insert(0, path)
 
 if __name__ == "__main__":
     argv = sys.argv[:]
-    argv.extend(['--verbose', '--nocapture'])
+    argv.extend(['--verbose', '--nocapture', '--with-doctest'])
     nose.main(argv=argv)
     os._exit(0)
